@@ -65,19 +65,17 @@ class ListProperty extends React.Component<IOwnProps, IOwnState>{
   constructor(props: IOwnProps) {
     super(props)
     this.state = {
-      propertie: []
+      propertie: [],
     }
   }
 
   async componentDidMount() {
     const response = await PropertieApiService.getAllproperties();
-
-
     this.setState({ propertie: response.data })
   }
 
-  render() {
-    const { propertie } = this.state
+  render() {    
+    const { propertie } = this.state        
     return (
       <div className="listProperty">
         <div className="row listPropertyHeader">
@@ -85,14 +83,6 @@ class ListProperty extends React.Component<IOwnProps, IOwnState>{
           <h5>Tu hogar ó tu Automovil a tan solo un clic </h5>
         </div>
         <div className="row listPropertyContent">
-          {/* {houseData.map((data, index) => {
-            return (
-              <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4" key={index}>
-                <SingelHouse data={data} />
-              </div>
-            );
-          })} */}
-
           {
             propertie.map((data, index) => {
               return (

@@ -15,12 +15,15 @@ class MyhousePage extends React.Component<RouteComponentProps<{ id: string }>, {
   componentDidMount() {
     var id = this.props.match.params.id;
     axios.get('http://localhost:9000/properties/' + id)
-      .then(res => {
-        const propertie = res.data;
-        this.setState({ propertie });
+      .then(propertie => {
+
+        this.setState({ propertie:propertie.data });
       });
   }
+
   render() {
+    console.log("datos1", this.state.propertie);
+    
     return (
       <div className="myhousePage">
 
@@ -33,7 +36,9 @@ class MyhousePage extends React.Component<RouteComponentProps<{ id: string }>, {
           <br />
           <br />
           <div className="myHouseWrapper">
-            <DetailProd data={this.state.propertie} />    
+         <DetailProd data={this.state.propertie} />  
+           
+             
          </div>
         
         </Dashboard>

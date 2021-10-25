@@ -1,34 +1,43 @@
 import { ImagesApiService } from 'api/ImagesService';
+import { Images } from 'models/images';
 import * as React from 'react';
 import './style.css';
-
 interface SingleHouseProps {
   data: any;
 }
 
+interface ImagensIwo {
+  imagenes: Images[];
+}
+class SingleHouse extends React.Component<SingleHouseProps, ImagensIwo> {
+  
+  constructor(props: SingleHouseProps) {
+    super(props);
+    this.state = {
+      imagenes: [],
+    }
 
-
-class SingleHouse extends React.Component<SingleHouseProps, {} > {
-  state = {
-    imagen: []
   }
 
+
+
   async componentDidMount() {
-    const response = await ImagesApiService.getImageById(this.props.data.id_img);
-    console.log("ima", response);
-    
-    this.setState({ imagen: response.data })
+
+    const idProp = this.props.data.id_prop
+    const response = await ImagesApiService.getImageById(idProp);
+    const imagenes = response.data;
+    this.setState({ imagenes })
   }
 
 
   render() {
-
+    console.log("data", this.state.imagenes);
     return (
       <div className="singleHouse">
         <a href={'/property/' + this.props.data.id_prop} className="card">
           <div className="figure">
-       
-          {/* {this.state.imagen.map(dato=> <img src= {dato.img_url}alt="image" />)} */}
+
+            {/* <img src={img.img_url} alt="image" />  */}
             <div className="figCaption">
               <div>$ {this.props.data.price}</div>
               <span className="icon-eye"> 200</span>
@@ -41,7 +50,7 @@ class SingleHouse extends React.Component<SingleHouseProps, {} > {
           <h2>{this.props.data.name}</h2>
           <div className="cardAddress"><span className="icon-pointer" />
             {this.props.data.address}
-            </div>
+          </div>
           <ul className="cardFeat">
             <li><span className="fa fa-moon-o" /> {this.props.data.beds}</li>
             <li><span className="icon-drop" /> {this.props.data.toilets}</li>
@@ -54,3 +63,5 @@ class SingleHouse extends React.Component<SingleHouseProps, {} > {
 }
 
 export default SingleHouse;
+
+

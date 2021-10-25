@@ -1,7 +1,7 @@
 import * as React from 'react';
-import axios from 'axios';
 import './styles.css';
 import { Images } from 'models/images';
+import { ImagesApiService } from 'api/ImagesService';
 
 interface IOwnState {
    imagenes: Images[];
@@ -24,15 +24,14 @@ class DetailProd extends React.Component<DetailProdProps, IOwnState> {
         }
       }
 
-  
-    componentDidMount() {
-        axios.get(`http://localhost:9000/picture`)
-          .then(res => {
-            const imagenes = res.data;
-            this.setState({ imagenes });
-          })
+      async componentDidMount() {
+        const response = await ImagesApiService.getAllproperties();
+        console.log("datos", response);
+        this.setState({ imagenes: response.data })
       }
+   
     render() {
+        console.log("veri",this.state.imagenes);
         
         return (
             <div className="container listProperty">
@@ -40,14 +39,13 @@ class DetailProd extends React.Component<DetailProdProps, IOwnState> {
                     <div className="container-fliud">
                         <div className="wrapper row listPropertyHeader">
                             <div className="preview col-md-6">
-          
-                               
                                 <div className="preview-pic tab-content">
                                 {this.state.imagenes.map(img =><div className="tab-pane active" id="pic-1"><img src={img.img_url} /></div> )}
-                                    <div className="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252" /></div>
+                                {this.state.imagenes.map(img =><div className="tab-pane" id="pic-2"><img src={img.img_url} /></div>)}
                                     <div className="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" /></div>
                                     <div className="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>
                                     <div className="tab-pane" id="pic-5"><img src="http://placekitten.com/400/252" /></div>
+                                    
                                 </div>
                                 <ul className="preview-thumbnail nav nav-tabs">
                                     <li className="active"><a data-target="#pic-1" ><img src={this.props.data.img} /></a></li>

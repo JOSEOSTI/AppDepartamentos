@@ -1,5 +1,7 @@
 export interface Images {
-    id_img: number; // Identifier uniq
-    img_url: string; // Name or fullname
-  
+    id_img: string; 
+    img_url: string; 
+    img_datatime: string; 
+    img_principal: string;
+    img_enable: string; 
 }
