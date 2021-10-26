@@ -2,42 +2,47 @@ import { ImagesApiService } from 'api/ImagesService';
 import { Images } from 'models/images';
 import * as React from 'react';
 import './style.css';
+
+
+
 interface SingleHouseProps {
   data: any;
+
+
 }
 
-interface ImagensIwo {
-  imagenes: Images[];
+interface ImagesIwo {
+  img: Images[];
 }
-class SingleHouse extends React.Component<SingleHouseProps, ImagensIwo> {
-  
+class SingleHouse extends React.Component<SingleHouseProps, ImagesIwo> {
+
   constructor(props: SingleHouseProps) {
-    super(props);
+    super(props)
     this.state = {
-      imagenes: [],
-    }
+      img: [],
 
+    }
   }
 
-
-
   async componentDidMount() {
-
     const idProp = this.props.data.id_prop
+    // console.log(idProp);
     const response = await ImagesApiService.getImageById(idProp);
-    const imagenes = response.data;
-    this.setState({ imagenes })
+    const img = response.data;
+    this.setState({ img })
   }
 
 
   render() {
-    console.log("data", this.state.imagenes);
+    // console.log("data", this.state.img)
     return (
       <div className="singleHouse">
         <a href={'/property/' + this.props.data.id_prop} className="card">
           <div className="figure">
-
-            {/* <img src={img.img_url} alt="image" />  */}
+            {this.state.img.map((res ,i)=>
+            <li  key={i}>
+              <img src={res.img_url} alt="image" /></li>
+            )}
             <div className="figCaption">
               <div>$ {this.props.data.price}</div>
               <span className="icon-eye"> 200</span>

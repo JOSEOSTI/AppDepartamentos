@@ -1,5 +1,5 @@
 export interface Images {
-    id_img: string; 
+    id_img: number; 
     img_url: string; 
     img_datatime: string; 
     img_principal: string;

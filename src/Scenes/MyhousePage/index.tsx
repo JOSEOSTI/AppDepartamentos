@@ -22,7 +22,7 @@ class MyhousePage extends React.Component<RouteComponentProps<{ id: string }>, {
   }
 
   render() {
-    console.log("datos1", this.state.propertie);
+    console.log(this.state.propertie);
     
     return (
       <div className="myhousePage">

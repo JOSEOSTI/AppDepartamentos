@@ -20,6 +20,10 @@ export class ImagesApi extends HttpApiService {
     return this.get(`${PROPERTIES_ENDPOINT}/${id}`);
   };
 
+  //#region Contact
+  getImageByALLId = (id: number) => {
+    return this.get(`${PROPERTIES_ENDPOINT}/src/${id}`);
+  };
   getAllproperties = () => {
     const response = this.get(`${PROPERTIES_ENDPOINT}`);
     return response

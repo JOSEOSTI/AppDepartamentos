@@ -1,37 +1,45 @@
 import * as React from 'react';
 import './styles.css';
-import { Images } from 'models/images';
 import { ImagesApiService } from 'api/ImagesService';
+import { Images } from 'models/images';
+// import { ImagesApiService } from 'api/ImagesService';
 
-interface IOwnState {
-   imagenes: Images[];
-  }
-  
+
+
+
 interface DetailProdProps {
-    data:any;
+    data: any;
 
+}
+interface imageiWO{
+    imagenes:Images[];
+    imagenesID:Images[];
 }
 
 
+class DetailProd extends React.Component<DetailProdProps, imageiWO> {
 
-class DetailProd extends React.Component<DetailProdProps, IOwnState> {
- 
-   
-    constructor(props: DetailProdProps) {
-        super(props)
-        this.state = {
-          imagenes: [],
-        }
-      }
+constructor(props:DetailProdProps){
+    super(props)
+    this.state={
+        imagenes:[],
+        imagenesID:[]
+    }
+}
 
-      async componentDidMount() {
-        const response = await ImagesApiService.getAllproperties();
-        console.log("datos", response);
+
+    async componentDidMount() {
+
+        const response = await ImagesApiService.getImageById(15);
         this.setState({ imagenes: response.data })
-      }
-   
+        
+        const respuesta = await ImagesApiService.getImageByALLId(15);
+        this.setState({ imagenesID: respuesta.data })
+    }
+
     render() {
-        console.log("veri",this.state.imagenes);
+
+        console.log(this.state.imagenes);
         
         return (
             <div className="container listProperty">
@@ -40,21 +48,23 @@ class DetailProd extends React.Component<DetailProdProps, IOwnState> {
                         <div className="wrapper row listPropertyHeader">
                             <div className="preview col-md-6">
                                 <div className="preview-pic tab-content">
-                                {this.state.imagenes.map(img =><div className="tab-pane active" id="pic-1"><img src={img.img_url} /></div> )}
-                                {this.state.imagenes.map(img =><div className="tab-pane" id="pic-2"><img src={img.img_url} /></div>)}
-                                    <div className="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" /></div>
-                                    <div className="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>
-                                    <div className="tab-pane" id="pic-5"><img src="http://placekitten.com/400/252" /></div>
-                                    
+
+                                    {this.state.imagenes.map(img => <div className="tab-pane active" id="pic-1"><img src={img.img_url} /></div>)}
+                                    {/* {this.state.imagenes.map(img => <div className="tab-pane" id="pic-2"><img src={img} /></div>)}
+                                    {this.state.imagenes.map(img => <div className="tab-pane" id="pic-3"><img src={img} /></div>)} */}
+                                    {/* <div className="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>
+                                    <div className="tab-pane" id="pic-5"><img src="http://placekitten.com/400/252" /></div> */}
+
                                 </div>
+                                
                                 <ul className="preview-thumbnail nav nav-tabs">
-                                    <li className="active"><a data-target="#pic-1" ><img src={this.props.data.img} /></a></li>
-                                    <li><a data-target="#pic-2" ><img src="http://placekitten.com/200/126" /></a></li>
-                                    <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+                                    {/* {this.state.imagenes.map(img => <li className="active"><a data-target="#pic-1" ><img src={img.img_url} /></a></li>)} */}
+                                    {this.state.imagenesID.map(imgsId =><li><a data-target="#pic-2" ><img src={imgsId.img_url} /></a></li>)}
+                                    {/* <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
                                     <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
-                                    <li><a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li>
+                                    <li><a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/200/126" /></a></li> */}
                                 </ul>
-                               
+
                             </div>
                             <div className="details col-md-6">
                                 <h3 className="product-title">{this.props.data.name}</h3>
@@ -94,6 +104,11 @@ class DetailProd extends React.Component<DetailProdProps, IOwnState> {
 
         );
     }
+    // async GetImg(id:number) {
+    //     const idProp= id;        
+    //     const response = await ImagesApiService.getImageById(idProp);
+    //     this.setState({ imagenes: response.data })
+    // }
 
 }
 

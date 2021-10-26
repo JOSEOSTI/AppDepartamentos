@@ -20,6 +20,11 @@ export class PropertieApi extends HttpApiService {
     return this.get(`${PROPERTIES_ENDPOINT}/${id}`);
   };
 
+  //#region Contact
+  getSearchById = (city: string) => {
+    return this.get(`${PROPERTIES_ENDPOINT}/${city}`);
+  };
+
   getAllproperties = () => {
     const response = this.get(`${PROPERTIES_ENDPOINT}`);
     return response
