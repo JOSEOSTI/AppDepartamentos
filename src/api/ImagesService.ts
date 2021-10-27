@@ -16,12 +16,12 @@ export class ImagesApi extends HttpApiService {
   }
 
   //#region Contact
-  getImageById = (id: number) => {
+  getImageById = (id: any) => {
     return this.get(`${PROPERTIES_ENDPOINT}/${id}`);
   };
 
   //#region Contact
-  getImageByALLId = (id: number) => {
+  getImageByALLId = (id:any) => {
     return this.get(`${PROPERTIES_ENDPOINT}/src/${id}`);
   };
   getAllproperties = () => {

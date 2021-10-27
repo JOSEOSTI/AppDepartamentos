@@ -3,6 +3,7 @@ import './style.css';
 import { RouteComponentProps } from 'react-router-dom';
 import Dashboard from 'Components/DashboardLayout';
 import NewItem from 'Scenes/NewsPage/Components/NewItem';
+import BigItem from 'Scenes/NewsPage/Components/BigItem';
 
 class AdvicePage extends React.Component<RouteComponentProps<{type: string}>, {}> {
   listNew = [
@@ -35,6 +36,7 @@ class AdvicePage extends React.Component<RouteComponentProps<{type: string}>, {}
       content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum repellendus accusantium modi quod'
     }
   ];
+  linkBigItem: string;
   render() {
     return (
       <div className="advicePage">
@@ -43,9 +45,9 @@ class AdvicePage extends React.Component<RouteComponentProps<{type: string}>, {}
             <h3>Advices ({this.props.match.params.type})</h3>
           </div>
           <div className="dashboardBody row">
-              {/* <div className="bigItemWrapper">
+              <div className="bigItemWrapper">
                 <BigItem linkImage={this.linkBigItem} />
-              </div> */}
+              </div>
               <div className="newItemWrapper container">
                 {this.listNew.map((item, index) => {
                   return (

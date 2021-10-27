@@ -40,6 +40,8 @@ class App extends React.Component<AppProps, {}> {
     }
   }
   render() {
+    console.log(this.props.children);
+    
     return (
       <Router>
         <div className="globalContainer">

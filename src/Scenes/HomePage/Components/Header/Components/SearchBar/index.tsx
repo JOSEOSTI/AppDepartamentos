@@ -3,11 +3,13 @@ import * as React from 'react';
 import './style.css';
 import { Icon } from 'react-fa';
 import SelectComponent from 'Components/SelectComponent';
- import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getTranslation, SupportedLanguage } from 'Services/Geo';
 // import { PropertieApiService } from 'api/PropertiesService';
 import { Properties } from 'models/properties';
+// import { PropertieApiService } from 'api/PropertiesService';
+
+// import SearchForm from 'Scenes/SearchPage/Components/SearchForm';
 
 const mapStateToProps = (state: any) => ({
   lang: state.status.lang,
@@ -20,23 +22,32 @@ interface SearchBarProps {
 }
 
 interface SelectBarState {
-  isAdvance: boolean;
-  propertie: Properties[];
+  isAdvance:any;
+  searchP: Properties[];
   items: any,
   city: string,
-
+  beds:number[],
+  listBed: string[];
+  listBath: string[];
+  priceD:string,
+  error:boolean
 }
 
 class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
-  listBed: string[];
-  listBath: string[];
+ 
+  
   constructor(props: SearchBarProps) {
     super(props);
     this.state = {
-      isAdvance: false,
-      propertie: [],
+      isAdvance: [],
+      searchP: [],
       items: [],
       city: '',
+      beds:[],
+      listBath:[],
+      listBed:[],
+      priceD:'',
+      error: false,
 
     };
   }
@@ -47,45 +58,44 @@ class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
     });
   }
   handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      city: ev.target.value,
-    });
+    this.setState({ city: ev.target.value    });
+
   };
 
   // async componentDidMount() {
+   
   //   const response = await PropertieApiService.getAllproperties();
   //   console.log("rest", response);
-  //   this.setState({ propertie: response.data })
+  //   this.setState({ searchP: response.data })
   // }
-
-
 
   handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
 
-    const { city } = this.state;
+    const { city} = this.state;
 
     if (!city) return;
 
     // this.setState({ loading: true, inputValue: '' });
-  
+
     fetch(`http://localhost:9000/properties/search/"${city}"`)
       .then(response => response.json())
       .then(data => {
-        console.log("--",data);
-        
+        console.log("--", data);
         this.setState({
-          propertie: data
+          searchP: data
         });
       })
-    // .catch(() => {
-    //   this.setState({ loading: false, error: true });
-    // });
-   };
-  render() {
-    const { city } = this.state;
-    console.log(this.state.propertie);
+    .catch(() => {
+      this.setState({ error: true });
+    });
+  };
+ 
 
+  render() {    
+
+
+    const { city  } = this.state;
     if (!this.props.isPersist) {
       return (null);
     }
@@ -104,12 +114,16 @@ class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
       '4'
     ];
 
+console.log("dataa", this.state.searchP);
+
     return (
       <div className="search-panel">
-        <form className="form-inline" role="form" onSubmit={this.handleSubmit}>
+       
+        <form className="form-inline" onSubmit={this.handleSubmit } action={"/search"} method="POST" role="form" >
           <div className="form-group">
             <input
-              type="text"
+              style={{ textTransform: 'uppercase' }}
+              type="text "
               className="form-control"
               id="city"
               value={city}
@@ -118,7 +132,7 @@ class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
             />
           </div>
           <div className={`form-group${this.state.isAdvance ? ' adv' : ' hidden-xs'}`}>
-            <SelectComponent switchTop={true} listItem={listBed} >
+            <SelectComponent switchTop={true} listItem={listBed}>
               {getTranslation(this.props.lang, 'Dormitorios')}
             </SelectComponent>
           </div>
@@ -133,8 +147,9 @@ class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
               <input
                 className="form-control price"
                 type="number"
-                id="price1"
                 placeholder={getTranslation(this.props.lang, 'Desde')}
+                name="priceD"
+
               />
             </div>
           </div>
@@ -144,45 +159,40 @@ class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
               <input
                 className="form-control price"
                 type="number"
-                id="price2"
                 placeholder={getTranslation(this.props.lang, 'Hasta')}
               />
             </div>
           </div>
-          {/* <div className={`form-group${this.state.isAdvance ? ' adv' : ' hidden-xs'}`}>
+          <div className={`form-group${this.state.isAdvance ? ' adv' : ' hidden-xs'}`}>
             <div className="checkbox custom-checkbox">
               <label>
                 <input type="checkbox" />
                 <Icon name="check" /> {getTranslation(this.props.lang, 'En alquiler')}</label>
             </div>
-          </div> */}
-          {/* <div className={`form-group${!this.state.isAdvance ? ' hidden-xs' : ''}`}>
+          </div>
+          <div className={`form-group${!this.state.isAdvance ? ' hidden-xs' : ''}`}>
             <div className="checkbox custom-checkbox"><label>
               <input type="checkbox" /><Icon name="check" /> {getTranslation(this.props.lang, 'En venta')} </label>
             </div>
-          </div> */}
+          </div>
           <div className="form-group">
-            <Link to="/search" className="btn btn-green isThemeBtn">{getTranslation(this.props.lang, 'Buscar')}</Link>
-            <a ref="#" className={`btn btn-o btn-white pull-right visible-xs${this.state.isAdvance ? ' advBtnActive' : ''}`}
-             
+            {/* <Link to="/search" className="btn btn-green isThemeBtn">{getTranslation(this.props.lang, 'Buscar')}</Link> */}
+            <button type="submit" className="btn btn-primary">{getTranslation(this.props.lang, 'Buscar')}</button>
+            <a
+              href="#"
+              className={`btn btn-o btn-white pull-right visible-xs${this.state.isAdvance ? ' advBtnActive' : ''}`}
+              onClick={this.toggleAdvSearch}
             >
               {getTranslation(this.props.lang, 'Advance Search')}
               <Icon name={`${this.state.isAdvance ? 'angle-down' : 'angle-up'}`} />
             </a>
           </div>
-          {/* <div className="form-group">
-
-                  <Link to="/search"  />
-
-            <button type="submit" className="btn btn-primary">
-              Search
-              <Icon name={`${this.state.isAdvance ? 'angle-down' : 'angle-up'}`} />
-            </button>
-          </div> */}
         </form>
       </div>
     );
+    
   }
+  
 }
 
 export default connect(mapStateToProps)(SearchBar);

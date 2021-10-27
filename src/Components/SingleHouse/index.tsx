@@ -33,6 +33,8 @@ class SingleHouse extends React.Component<SingleHouseProps, ImagesIwo> {
   }
 
 
+
+
   render() {
     // console.log("data", this.state.img)
     return (

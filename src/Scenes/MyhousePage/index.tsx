@@ -21,9 +21,7 @@ class MyhousePage extends React.Component<RouteComponentProps<{ id: string }>, {
       });
   }
 
-  render() {
-    console.log(this.state.propertie);
-    
+  render() {    
     return (
       <div className="myhousePage">
 

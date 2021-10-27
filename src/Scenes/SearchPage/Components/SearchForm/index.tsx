@@ -76,6 +76,8 @@ class SearchForm extends React.Component<{}, SearchFormState> {
     );
   }
   render() {
+    console.log("search",this.state.resultTab);
+    
     return (
       <div className="searchForm">
         <div className="filterBox">

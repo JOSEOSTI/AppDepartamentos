@@ -51,6 +51,8 @@ class SelectComponent extends React.Component<SelectComponentProps, SelectCompon
   }
 
   render() {
+    console.log("selec",this.state.itemSelected);
+    
     return (
       <div
         ref={(div) => { this.wrapperRef = div; }}
