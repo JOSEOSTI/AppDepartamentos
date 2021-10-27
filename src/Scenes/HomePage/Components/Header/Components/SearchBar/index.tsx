@@ -89,8 +89,13 @@ class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
     .catch(() => {
       this.setState({ error: true });
     });
+    this.redir(this.state.searchP)
   };
- 
+  redir = (data:any) => {
+    console.log("envio" , data);
+    
+    window.location.href = `/search?s/${data}`;
+   }
 
   render() {    
 
