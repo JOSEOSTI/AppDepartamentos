@@ -47,7 +47,7 @@ class App extends React.Component<AppProps, {}> {
         <div className="globalContainer">
           <Route exact={true} path="/" component={HomePage} />
           <Route exact={true} path="/wallet/:action?" component={WalletPage} />
-          <Route exact={true} path="/search/:action?" component={SearchPage} />
+          <Route exact={true} path="/search/:cityName?" component={SearchPage} />
           <Route exact={true} path="/property/:id?" component={MyhousePage} />
           <Route exact={true} path="/newproperty/:action" component={NewPropertyPage} />
           <Route exact={true} path="/myprofile" component={PageInfo} />

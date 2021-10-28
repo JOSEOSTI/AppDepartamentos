@@ -4,47 +4,59 @@ import SelectComponent from 'Components/SelectComponent';
 import SingelHouse from 'Components/SingleHouse';
 import SearchMap from '../SearchMap';
 import { Icon } from 'react-fa';
-
-const houseData: any[] = [{
-  name: 'Modern Residence in New York',
-  address: ' 39 Remsen St, Brooklyn, NY 11201, USA',
-  beds: 3,
-  toilets: 2,
-  square: 20,
-  img: 'http://mariusn.com/themes/reales/images/prop/1-1.png'
-}, {
-  name: 'Hauntingly Beautiful Estate',
-  address: ' 169 Warren St, Brooklyn, NY 11201, USA',
-  beds: 3,
-  toilets: 2,
-  square: 20,
-  img: 'http://mariusn.com/themes/reales/images/prop/2-1.png'
-}, {
-  name: 'Modern Residence in New York',
-  address: ' 39 Remsen St, Brooklyn, NY 11201, USA',
-  beds: 3,
-  toilets: 2,
-  square: 20,
-  img: 'http://mariusn.com/themes/reales/images/prop/1-1.png'
-}, {
-  name: 'Hauntingly Beautiful Estate',
-  address: ' 169 Warren St, Brooklyn, NY 11201, USA',
-  beds: 3,
-  toilets: 2,
-  square: 20,
-  img: 'http://mariusn.com/themes/reales/images/prop/2-1.png'
-}];
+import { PropertieApiService } from 'api/PropertiesService';
+// const houseData: any[] = [{
+//   name: 'Modern Residence in New York',
+//   address: ' 39 Remsen St, Brooklyn, NY 11201, USA',
+//   beds: 3,
+//   toilets: 2,
+//   square: 20,
+//   img: 'http://mariusn.com/themes/reales/images/prop/1-1.png'
+// }, {
+//   name: 'Hauntingly Beautiful Estate',
+//   address: ' 169 Warren St, Brooklyn, NY 11201, USA',
+//   beds: 3,
+//   toilets: 2,
+//   square: 20,
+//   img: 'http://mariusn.com/themes/reales/images/prop/2-1.png'
+// }, {
+//   name: 'Modern Residence in New York',
+//   address: ' 39 Remsen St, Brooklyn, NY 11201, USA',
+//   beds: 3,
+//   toilets: 2,
+//   square: 20,
+//   img: 'http://mariusn.com/themes/reales/images/prop/1-1.png'
+// }, {
+//   name: 'Hauntingly Beautiful Estate',
+//   address: ' 169 Warren St, Brooklyn, NY 11201, USA',
+//   beds: 3,
+//   toilets: 2,
+//   square: 20,
+//   img: 'http://mariusn.com/themes/reales/images/prop/2-1.png'
+// }];
 
 interface SearchFormState {
   resultTab: 'list' | 'map';
-}
+  resultSearch:any
 
-class SearchForm extends React.Component<{}, SearchFormState> {
+}
+interface SearchItems {
+  data:any
+}
+class SearchForm extends React.Component<SearchItems, SearchFormState> {
   constructor() {
     super();
     this.state = {
-      resultTab: 'list'
+      resultTab: 'list',
+      resultSearch:[]
+      
     };
+  }
+
+  async componentDidMount() {
+   const city = this.props.data.cityName  
+    const response = await PropertieApiService.getSearchById(city);
+     this.setState({ resultSearch: response.data })
   }
   changeResultTab = (tab: 'list' | 'map') => {
     if (tab !== this.state.resultTab) {
@@ -53,13 +65,14 @@ class SearchForm extends React.Component<{}, SearchFormState> {
       });
     }
   }
-  resultList = () => {
+
+  resultList = () => {    
     return (
       <div className="resultsList">
         <div className="row">
-          {houseData.map((data, index) => {
+          {this.state.resultSearch.map((data:any , index:any) => {
             return (
-              <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6" key={index}>
+              <div className="col-xs-6 col-sm-6 col-md-3 col-lg-3" key={index}>
                 <SingelHouse data={data} />
               </div>
             );
@@ -76,8 +89,7 @@ class SearchForm extends React.Component<{}, SearchFormState> {
     );
   }
   render() {
-    console.log("search",this.state.resultTab);
-    
+
     return (
       <div className="searchForm">
         <div className="filterBox">
@@ -97,7 +109,7 @@ class SearchForm extends React.Component<{}, SearchFormState> {
                   <a href="#" className="btn btn-gray btn-round-left">
                     <Icon name="angle-left" />
                   </a>
-                  <input type="text" className="form-control" readOnly={true} value="1" />
+                  <input type="text" className="form-control"   readOnly={true} value="1" />
                   <a href="#" className="btn btn-gray btn-round-right">
                     <Icon name="angle-right" />
                   </a>
@@ -119,7 +131,7 @@ class SearchForm extends React.Component<{}, SearchFormState> {
         <div className="resultTable">
           <div className="resultTab">
             <ul>
-              <li 
+              <li
                 className={this.state.resultTab === 'list' ? 'active' : ''}
                 onClick={(e) => this.changeResultTab('list')}
               >

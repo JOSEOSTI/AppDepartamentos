@@ -3,9 +3,14 @@ import './style.css';
 import { RouteComponentProps } from 'react-router-dom';
 import Dashboard from 'Components/DashboardLayout';
 import SearchForm from './Components/SearchForm';
-
-class SearchPage extends React.Component<RouteComponentProps<{}>, {}> {
+interface dataSearch {
+  data:any
+}
+class SearchPage extends React.Component<RouteComponentProps<dataSearch>, {}> {
+  
   render() {
+    console.log(this.props.match.params);
+    
     return (
       <div className="searchPage">
         <Dashboard>
@@ -13,7 +18,7 @@ class SearchPage extends React.Component<RouteComponentProps<{}>, {}> {
             <h3>Filter your result</h3>
           </div>
           <div className="searchFormWrapper">
-            <SearchForm />
+            <SearchForm  data ={this.props.match.params}/>
           </div>
         </Dashboard>
       </div>

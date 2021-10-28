@@ -5,11 +5,8 @@ import { Icon } from 'react-fa';
 import SelectComponent from 'Components/SelectComponent';
 import { connect } from 'react-redux';
 import { getTranslation, SupportedLanguage } from 'Services/Geo';
-// import { PropertieApiService } from 'api/PropertiesService';
 import { Properties } from 'models/properties';
-// import { PropertieApiService } from 'api/PropertiesService';
-
-// import SearchForm from 'Scenes/SearchPage/Components/SearchForm';
+import { Link } from 'react-router-dom';
 
 const mapStateToProps = (state: any) => ({
   lang: state.status.lang,
@@ -62,44 +59,7 @@ class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
 
   };
 
-  // async componentDidMount() {
-   
-  //   const response = await PropertieApiService.getAllproperties();
-  //   console.log("rest", response);
-  //   this.setState({ searchP: response.data })
-  // }
-
-  handleSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
-    ev.preventDefault();
-
-    const { city} = this.state;
-
-    if (!city) return;
-
-    // this.setState({ loading: true, inputValue: '' });
-
-    fetch(`http://localhost:9000/properties/search/"${city}"`)
-      .then(response => response.json())
-      .then(data => {
-        console.log("--", data);
-        this.setState({
-          searchP: data
-        });
-      })
-    .catch(() => {
-      this.setState({ error: true });
-    });
-    this.redir(this.state.searchP)
-  };
-  redir = (data:any) => {
-    console.log("envio" , data);
-    
-    window.location.href = `/search?s/${data}`;
-   }
-
   render() {    
-
-
     const { city  } = this.state;
     if (!this.props.isPersist) {
       return (null);
@@ -117,14 +77,12 @@ class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
       '2',
       '3',
       '4'
-    ];
-
-console.log("dataa", this.state.searchP);
-
+    ];4
+    console.log(this.state.city);
+    
     return (
       <div className="search-panel">
-       
-        <form className="form-inline" onSubmit={this.handleSubmit } action={"/search"} method="POST" role="form" >
+        <form className="form-inline"     role="form" >
           <div className="form-group">
             <input
               style={{ textTransform: 'uppercase' }}
@@ -181,8 +139,8 @@ console.log("dataa", this.state.searchP);
             </div>
           </div>
           <div className="form-group">
-            {/* <Link to="/search" className="btn btn-green isThemeBtn">{getTranslation(this.props.lang, 'Buscar')}</Link> */}
-            <button type="submit" className="btn btn-primary">{getTranslation(this.props.lang, 'Buscar')}</button>
+            <Link to={{pathname: `/search/${this.state.city}`.toUpperCase()}}   className="btn btn-green isThemeBtn">{getTranslation(this.props.lang, 'Buscar')}{this.state.searchP}</Link>
+            {/* <button type="submit" className="btn btn-primary">{getTranslation(this.props.lang, 'Buscar')}</button> */}
             <a
               href="#"
               className={`btn btn-o btn-white pull-right visible-xs${this.state.isAdvance ? ' advBtnActive' : ''}`}

@@ -36,7 +36,7 @@ class SingleHouse extends React.Component<SingleHouseProps, ImagesIwo> {
 
 
   render() {
-    // console.log("data", this.state.img)
+    //  console.log("data", this.props.data)
     return (
       <div className="singleHouse">
         <a href={'/property/' + this.props.data.id_prop} className="card">
