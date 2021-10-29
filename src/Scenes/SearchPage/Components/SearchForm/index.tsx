@@ -89,7 +89,6 @@ class SearchForm extends React.Component<SearchItems, SearchFormState> {
     );
   }
   render() {
-
     return (
       <div className="searchForm">
         <div className="filterBox">

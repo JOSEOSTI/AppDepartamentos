@@ -27,7 +27,7 @@ interface SelectBarState {
   listBed: string[];
   listBath: string[];
   priceD:string,
-  error:boolean
+  error:boolean,
 }
 
 class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
@@ -59,6 +59,7 @@ class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
 
   };
 
+
   render() {    
     const { city  } = this.state;
     if (!this.props.isPersist) {
@@ -78,8 +79,10 @@ class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
       '3',
       '4'
     ];4
-    console.log(this.state.city);
+    console.log(this.props.children);
     
+
+
     return (
       <div className="search-panel">
         <form className="form-inline"     role="form" >
@@ -95,12 +98,13 @@ class SearchBar extends React.Component<SearchBarProps, SelectBarState> {
             />
           </div>
           <div className={`form-group${this.state.isAdvance ? ' adv' : ' hidden-xs'}`}>
-            <SelectComponent switchTop={true} listItem={listBed}>
+          {/* onSelectItem={this.getData} */}
+            <SelectComponent switchTop={true} listItem={listBed}  >
               {getTranslation(this.props.lang, 'Dormitorios')}
             </SelectComponent>
           </div>
           <div className={`form-group${this.state.isAdvance ? ' adv' : ' hidden-xs'}`}>
-            <SelectComponent switchTop={true} listItem={listBath}>
+            <SelectComponent switchTop={true} listItem={listBath} >
               {getTranslation(this.props.lang, 'Baños')}
             </SelectComponent>
           </div>

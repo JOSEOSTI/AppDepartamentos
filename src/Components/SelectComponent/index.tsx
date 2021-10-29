@@ -9,6 +9,8 @@ interface SelectComponentProps {
 interface SelectComponentState {
   showList: boolean;
   itemSelected: number;
+  title:any
+
 }
 
 class SelectComponent extends React.Component<SelectComponentProps, SelectComponentState> {
@@ -17,7 +19,9 @@ class SelectComponent extends React.Component<SelectComponentProps, SelectCompon
     super(props);
     this.state = {
       showList: false,
-      itemSelected: 0
+      itemSelected: 0,
+      title:''
+
     };
   }
   componentWillUnmount() {
@@ -52,6 +56,9 @@ class SelectComponent extends React.Component<SelectComponentProps, SelectCompon
 
   render() {
     console.log("selec",this.state.itemSelected);
+    console.log("selec",this.props.children);
+    const title= this.props.children
+    console.log(title);
     
     return (
       <div
